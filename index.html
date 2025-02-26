@@ -75,7 +75,7 @@
             padding: 12px; /* 內邊距 */
             font-size: 16px; /* 字型大小 */
             background-color: #E9ECEF; /* 背景顏色 */
-            color: #333333; /* white文字顏色 */
+            color: ; #333333;/* white文字顏色 */
             border: none; /* 無邊框 */
             border-radius: 8px; /* 邊角圓角化 */
             cursor: pointer; /* 滑鼠指標變成手形 */
@@ -197,6 +197,7 @@
             background-color: #ddd; /* 進度條背景顏色 */
             border-radius: 10px; /* 進度條圓角 */
             margin: 20px 0; /* 進度條上下間距 */
+    		position: relative; /* 為了讓文字置中 */
         }
 
         .progress-bar span {
@@ -205,6 +206,17 @@
             background-color: #4CAF50; /* 進度條顏色 */
             border-radius: 10px; /* 填充元素圓角 */
         }
+
+.progress-text {
+    position: absolute; /* 讓文字絕對定位 */
+    top: 50%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 精確居中 */
+    color: white; /* 文字顏色 */
+    font-size: 14px; /* 文字大小 */
+    font-weight: bold; /* 文字加粗 */
+}
+
 
         /* 響應式調整，對手機進行調整 */
         @media (max-width: 600px) {
@@ -247,7 +259,7 @@
 </head>
 <body>
 
-    <h1>DiSC 人格特質測驗</h1>
+    <h1>DiSC 人格特質測驗 40</h1>
 
     <!-- 測驗頁面 -->
     <div id="question-container" class="question-container active">
@@ -257,14 +269,22 @@
         <div id="options-container"></div>
 
         <div class="btn-container">
-            <button class="btn" id="prev-button" onclick="prevQuestion()" style="display:none;">上一題</button>
-            <button class="btn" id="next-button" onclick="nextQuestion()">下一題</button>
+            <button class="btn" id="prev-button" onclick="prevQuestion()" style="display:none;">重作上一題</button>
+            <button class="btn" id="next-button" onclick="nextQuestion()"disabled>自動下一題</button>
         </div>
 
         <!-- 進度條 -->
         <div class="progress-bar">
             <span id="progress-bar-fill"></span>
+
+    <!-- 顯示題數/總題數 -->
+    <div id="progress-text" class="progress-text"></div>
+
         </div>
+
+
+
+
     <!-- 這裡是版權宣告 開始-->
 <footer class="footer">
     <p>&copy;2025 GCDF全球職涯發展師 莊士勇 設計</p>
@@ -314,37 +334,59 @@
     <script src="feedbackDatabase.js"></script>
 
     <script>
-        // 變數初始化
-        let answers = [];    // 用戶選擇的答案
-        let currentQuestionIndex = 0;  // 當前問題索引
+    // 變數初始化
+    let answers = [];    // 用戶選擇的答案
+    let currentQuestionIndex = 0;  // 當前問題索引
+    let shuffledQuestions = [];  // 用來儲存打亂順序的題目列表
 
-        // 更新問題顯示
-        function updateQuestion() {
-            const question = questions[currentQuestionIndex];
-            document.getElementById("question-text").textContent = question.text;
-
-            // 清空舊的選項
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            // 顯示選項
-            question.options.forEach((option, index) => {
-                const button = document.createElement("button");
-                button.classList.add("btn");
-                button.textContent = option;
-                button.onclick = () => selectAnswer(index);
-                optionsContainer.appendChild(button);
-            });
-
-            // 更新上一題與下一題按鈕狀態
-            document.getElementById("prev-button").style.display = currentQuestionIndex === 0 ? "none" : "inline-block";
-            document.getElementById("next-button").style.display = currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
-
-            // 更新進度條
-            const progressBar = document.getElementById("progress-bar-fill");
-            const progress = (currentQuestionIndex + 1) / questions.length * 100;
-            progressBar.style.width = progress + "%";
+    // 隨機打亂陣列的函數
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // 交換元素
         }
+    }
+
+    // 初始化題目並打亂順序
+    function initQuestions() {
+        shuffledQuestions = [...questions];  // 複製題目
+        shuffle(shuffledQuestions);  // 隨機打亂題目順序
+        updateQuestion();  // 更新顯示
+    }
+
+// 更新問題顯示
+function updateQuestion() {
+    const question = shuffledQuestions[currentQuestionIndex]; // 使用打亂後的題目
+    document.getElementById("question-text").textContent = question.text;
+
+    // 清空舊的選項
+    const optionsContainer = document.getElementById("options-container");
+    optionsContainer.innerHTML = "";
+
+    // 顯示選項
+    question.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.classList.add("btn");
+        button.textContent = option;
+        button.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(button);
+    });
+
+    // 更新上一題與下一題按鈕狀態
+    document.getElementById("prev-button").style.display = currentQuestionIndex === 0 ? "none" : "inline-block";
+    document.getElementById("next-button").style.display = currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
+
+
+    // 更新進度條
+    const progressBar = document.getElementById("progress-bar-fill");
+    const progress = (currentQuestionIndex + 1) / shuffledQuestions.length * 100;
+    progressBar.style.width = progress + "%";
+
+    // 更新題數顯示（例如：1/40）
+    const progressText = document.getElementById("progress-text");
+    progressText.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+
+}
 
         // 選擇答案並跳到下一題
         function selectAnswer(answerIndex) {
@@ -459,12 +501,10 @@ function generatePersonalityAnalysis(indexes, label) {
     return analysis;
 }
 
-        // 初始化測驗
-        window.onload = function() {
-            // 當載入後，questions.js 的資料會被初始化到 `questions` 變數
-            updateQuestion();
-        };
-    </script>
-
+    // 當頁面載入時初始化題目順序
+    window.onload = function() {
+        initQuestions();  // 初始化並顯示第一題
+    };
+</script>
 </body>
 </html>
