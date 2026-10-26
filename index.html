@@ -1,510 +1,564 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiSC 人格特質測驗</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>DISC 人格特質測驗</title>
 
-    <!-- 添加 meta 標籤 -->
-    <meta name="author" content="莊士勇Steven">
-    <meta name="description" content="這是一個 DISC 人格測驗，幫助您了解自己在不同情境下的行為特徵。">
-    <meta name="keywords" content="DISC, 人格測驗, 性格測試, 職場測評, 性格分析">
-    <meta property="og:title" content="DISC 人格測驗">
-    <meta property="og:description" content="測試您的 DISC 人格特質，了解您是更像老虎、孔雀、無尾熊還是貓頭鷹。">
-    <meta property="og:image" content="DiSC_og_image.png">
-    <meta property="og:type" content="website">
+<!-- 基本資訊 -->
+<meta name="version" content="3.0">
+<meta name="author" content="莊士勇 Steven">
+<meta name="description" content="本測驗依據 DISC 行為模式理論設計，透過生活與職場中的情境題，了解你的行為風格。分為青年版（20 題）與大眾版（40 題）。">
 
-    <style>
-        /* 全局字型與排版 */
-        body {
-            font-family: 'Arial', sans-serif; /* 設定字型 */
-            text-align: center; /* 文字置中 */
-            padding: 20px; /* 內邊距 */
-            background-color: #f4f7fa; /* 背景色 */
-            margin: 0; /* 去除預設邊距 */
-            box-sizing: border-box; /* 設定 box-sizing，避免 padding 影響尺寸 */
-        }
+<!-- 社群分享設定 -->
+<meta property="og:title" content="DISC 人格特質測驗">
+<meta property="og:description" content="你比較像老虎、孔雀、無尾熊還是貓頭鷹？透過情境題了解你的行為風格。">
+<meta property="og:type" content="website">
 
-        /* h1標題樣式 */
-        h1 {
-            font-size: 30px;  /* 設定字型大小 */
-            font-weight: bold; /* 強調主標題 */
-            text-align: center;/* 文字置中 */
-            line-height: 1.5; /* 調小行距預設1.5，讓標題與說明文字更貼近 */
-            margin-bottom: 3px; /* 減少標題與下一行的距離 */
-            margin-top: 0px; /* 減少與上一行的距離 3px */
-            color: #343a40; /* 字型 深灰色 */
-        }
+<!-- 網站小圖示 -->
+<link rel="icon" href="disc.ico" type="image/x-icon">
 
-        /* h2標題樣式 */
-        h2 {
-            font-size: 22px;  /* 設定字型大小 */
-            font-weight: bold; /* 副標題常規字重 normal bold*/
-            text-align: center;/* 文字置中 */
-            line-height: 1.5; /* 調小行距預設1.5，讓標題與說明文字更貼近 */
-            margin-bottom: 3px; /* 減少標題與下一行的距離 */
-            margin-top: 3px; /* 減少與上一行的距離 */
-            color: #003366; /* 字型 深藍色 */
-        }
-
-
-        /* h3 標題樣式 */
-        h3 {
-            font-size: 20px;   /* 設定字型大小 */
-            font-weight: normal; /* 副標題常規字重 */
-            color: #007bff;    /* 字型 深藍色 */
-            text-align: center;/* 文字置中 */
-            line-height: 1.0; /* 調小行距預設1.5，讓標題與說明文字更貼近 */
-            margin-bottom: 3px; /* 減少標題與下一行的距離 */
-            margin-top: 3px; /* 減少與上一行的距離 */
-            margin-bottom: 0px; /* 設定底部間距 15px*/
-        }
-
-        .question-container {
-            display: none; /* 預設不顯示問題區塊 */
-        }
-
-        .question-container.active {
-            display: block; /* 當 active 類別添加時，顯示問題區塊 */
-        }
-
-        .btn {
-            display: block; /* 讓按鈕顯示為塊狀元素 */
-            width: 90%; /* 按鈕寬度 */
-            margin: 10px auto; /* 上下間距及置中 */
-            padding: 12px; /* 內邊距 */
-            font-size: 16px; /* 字型大小 */
-            background-color: #E9ECEF; /* 背景顏色 */
-            color: ; #333333;/* white文字顏色 */
-            border: none; /* 無邊框 */
-            border-radius: 8px; /* 邊角圓角化 */
-            cursor: pointer; /* 滑鼠指標變成手形 */
-            transition: background-color 0.3s; /* 滑鼠移動時顏色變化 */
-        }
-
-        .btn:hover {
-            background-color: /*#D6D8DB;  滑鼠懸停時背景顏色 */
-        }
-
-        .btn:disabled {
-            background-color: #ccc; /* 禁用按鈕顏色 */
-            cursor: not-allowed; /* 禁用時滑鼠指標顯示不可用 */
-        }
-
-        .btn-container {
-            margin-top: 20px; /* 按鈕區塊上方間距 */
-        }
-
-	/* 上一題 & 下一題 按鈕樣式 */
-	#prev-button, #next-button {
-	   width: 45%; /* 按鈕寬度 */
-	   max-width: 200px; /* 按鈕限制最大寬度 */
-	}
-
-        /* 結果頁面 */
-        #result-page {
-            display: none; /* 預設結果頁面不顯示 */
-        }
-
-        #result-page.active {
-            display: block; /* 當 active 類別添加時顯示結果頁面 */
-        }
-
-        /* 使用CSS Grid呈現結果的表格 */
-        .matrix {
-            display: grid; /* 使用 grid 布局 */
-            grid-template-columns: 1fr 1fr; /* 設定為兩列 */
-            gap: 5px; /* 兩個格子之間的間距 */
-            margin: 30px auto; /* 上下間距及置中 */
-            width: 80%; /* 設定表格寬度 */
-            height: 80%; /* 設定表格高度 */
-            max-width: 600px; /* 設定最大寬度 */
-            max-height: 600px; /* 設定最大高度 */
-            border: 0px solid #000; /* 設定表格邊框 */
-            padding: 10px; /* 內邊距 */
-            box-sizing: border-box; /* 設定 box-sizing，避免 padding 影響尺寸 */
-        }
-
-        .matrix div {
-            border: 1px solid #000; /* 設定格子邊框 */
-            padding: 5px; /* 設定格子內邊距 */
-            text-align: center; /* 文字置中 */
-            font-size: 18px; /* 設定字型大小 */
-        }
-
-        /* 讓格子內容呈現兩行 */
-        .matrix div .animal {
-            font-size: 80px; /* 調整動物表情符號大小，原始為22，增大為50 */
-            display: block; /* 確保動物表情符號占一行 */
-            margin-bottom: 0px; /* 調整動物表情符號與名稱之間的間距 */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 加上陰影效果 */
-        }
-
-        .matrix div .animal-name {
-            font-size: 30px; /* 調整動物名稱大小 原始18 */
-            display: block; /* 確保名稱顯示在新的一行 */
-            margin-top: 0px; /* 調整名稱與上方動物表情符號的距離 */
-        }
-         /* 數字 */
-        .matrix div .count {
-            font-size: 60px; /* 調整數字大小，原始為16，增大為60 */
-            display: block; /* 確保數字在新的一行顯示 */
-            margin-top: 0px; /* 增加數字與上方動物表情符號之間的距離 */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* 為數字加上陰影 */
-        }
-
-/* 老虎格子 */
-#tiger {
-    background-color: #FFB6B6; /* 淡紅色 */
+<style>
+/* ===== 共用色彩與字體（四大測驗統一使用） ===== */
+:root {
+  --bg: #f6f5f2;          /* 頁面底色：溫和米白 */
+  --surface: #ffffff;     /* 卡片、區塊底色 */
+  --text: #2b2b2b;        /* 主要文字 */
+  --muted: #6b6b6b;       /* 次要文字 */
+  --line: #e2e0da;        /* 分隔線、外框 */
+  --brand: #35628E;       /* 主色：按鈕 */
+  --brand-dark: #284c6e;
+  --brand-tint: #EBF1F7;  /* 主色的淡色：選取、強調底色 */
+  --radius: 14px;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 }
 
-/* 孔雀格子 */
-#peacock {
-    background-color: #FFFACD; /* 淡黃色 */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.5;
 }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
 
-/* 無尾熊格子 */
-#koala {
-    background-color: #D3F9E3; /* 淡綠色 */
+/* ===== 頁首與步驟指示 ===== */
+header { padding: 20px 0 8px; text-align: center; }
+h1 { font-size: 26px; margin: 0 0 12px; letter-spacing: 1px; }
+.steps { display: flex; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 15px; color: var(--muted); }
+.steps li { padding: 4px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.steps li.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
+
+/* ===== 說明頁 ===== */
+.intro { text-align: center; padding: 8px 0 4px; }
+.intro .desc { font-size: 18px; margin: 12px 0; }
+.intro .flow { font-size: 16px; color: var(--brand); font-weight: 600; margin: 12px 0; }
+.intro .note { font-size: 15px; color: var(--muted); margin: 12px 0 22px; }
+.intro .start-btn { display: block; width: 100%; margin: 0 0 12px; padding: 14px 16px; font-size: 19px; }
+.intro .start-btn small { display: block; font-size: 15px; font-weight: 400; opacity: .9; }
+
+/* ===== 作答 ===== */
+.question {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 14px 0;
 }
-
-/* 貓頭鷹格子 */
-#owl {
-    background-color: #B3D9FF; /* 淡藍色 */
+.question .no { font-size: 14px; color: var(--muted); }
+.question .text { font-size: 20px; font-weight: 700; margin: 4px 0 14px; }
+.opt {
+  display: block; width: 100%;
+  font: inherit; font-size: 17px; text-align: left; color: var(--text);
+  background: var(--bg); border: 2px solid var(--line); border-radius: 12px;
+  padding: 12px 14px; margin-bottom: 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
+.opt:active, .opt.chosen { border-color: var(--brand); background: var(--brand-tint); }
+.progress { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--muted); }
+.progress .track { flex: 1; height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+.progress .fill { height: 100%; background: var(--brand); border-radius: 5px; transition: width .2s; }
 
-/* personality 回應性格 顯示區塊樣式設定 */
-#personality {
-    font-size: 20px;
-    text-align: center; /* 讓文字靠左對齊 */
-    width: 80%; /* 設定寬度為80% */
-    max-width: 600px; /* 設定最大寬度 */
-    margin: 20px auto; /* 設置自動居中 */
-    word-wrap: break-word; /* 讓長文字自動換行 */
+/* ===== 結果 ===== */
+.result-mode { text-align: center; font-size: 17px; font-weight: 600; margin: 4px 0 0; }
+.result-meta { text-align: center; color: var(--muted); font-size: 16px; margin: 4px 0 14px; }
+.notice { text-align: center; color: var(--muted); font-size: 15px; margin: 12px 0; }
+
+/* 四種動物：上排老虎、孔雀，下排貓頭鷹、無尾熊 */
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.animal {
+  background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius);
+  padding: 12px 8px; text-align: center;
 }
+.animal .emoji { font-size: 36px; line-height: 1.2; }
+.animal .name { font-size: 18px; font-weight: 700; }
+.animal .type { font-size: 13px; color: var(--muted); }
+.animal .count { font-size: 30px; font-weight: 700; color: var(--muted); }
+.animal.primary { border-color: var(--brand); background: var(--brand-tint); }
+.animal.primary .count { color: var(--brand); }
+.animal.secondary { border-color: #9db3c9; }
 
-	/* 分隔線樣式 */
-	.divider {
-	    border-top: 1px solid #000; /* 設定分隔線的厚度為 2px，顏色為黑色 (#000) */
-	    margin: 20px 0; /* 上下邊距 20px，左右邊距 0px，讓分隔線和周圍的內容保持適當的空間 */
-	    width: 100%; /* 設定分隔線的寬度為 100%，使其橫跨容器的整個寬度 */
-	}
-
-        /* 進度條樣式 */
-        .progress-bar {
-            width: 100%; /* 進度條寬度 */
-            height: 20px; /* 進度條高度 */
-            background-color: #ddd; /* 進度條背景顏色 */
-            border-radius: 10px; /* 進度條圓角 */
-            margin: 20px 0; /* 進度條上下間距 */
-    		position: relative; /* 為了讓文字置中 */
-        }
-
-        .progress-bar span {
-            display: block; /* 讓進度條填充元素顯示為區塊 */
-            height: 100%; /* 填充元素高度為100% */
-            background-color: #4CAF50; /* 進度條顏色 */
-            border-radius: 10px; /* 填充元素圓角 */
-        }
-
-.progress-text {
-    position: absolute; /* 讓文字絕對定位 */
-    top: 50%; /* 垂直居中 */
-    left: 50%; /* 水平居中 */
-    transform: translate(-50%, -50%); /* 精確居中 */
-    color: white; /* 文字顏色 */
-    font-size: 14px; /* 文字大小 */
-    font-weight: bold; /* 文字加粗 */
+.summary { text-align: center; margin: 18px 0 8px; font-size: 18px; }
+.summary p { margin: 4px 0; }
+.analysis {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px; margin: 12px 0;
 }
+.analysis h3 { font-size: 16px; color: var(--muted); margin: 0 0 6px; }
+.analysis h4 { font-size: 19px; margin: 10px 0 4px; }
+.analysis p { margin: 0; line-height: 1.7; }
 
-
-        /* 響應式調整，對手機進行調整 */
-        @media (max-width: 600px) {
-            .matrix {
-                width: 100%; /* 手機屏幕上表格寬度設為100% */
-                height: auto; /* 手機屏幕上表格高度自動調整 */
-                max-width: 100%; /* 手機屏幕上最大寬度設為100% */
-                max-height: none; /* 手機屏幕上無最大高度限制 */
-                padding: 5px; /* 內邊距縮小 */
-            }
-
-            .matrix div {
-                font-size: 16px; /* 調整格子字型大小 */
-                padding: 3px; /* 調整格子內邊距 */
-            }
-        }
-
-/* 讓格子顯示圓角並設置顏色 */
-.matrix div {
-    border: 1px solid #000; /* 設定格子邊框 */
-    padding: 5px; /* 設定格子內邊距 */
-    text-align: center; /* 文字置中 */
-    font-size: 18px; /* 設定字型大小 */
-    border-radius: 12px; /* 圓角設置 */
+/* ===== 按鈕 ===== */
+.btn {
+  border: none; border-radius: 12px;
+  padding: 12px 18px;
+  font: inherit; font-size: 17px; font-weight: 600;
+  cursor: pointer;
+  background: var(--brand); color: #fff;
 }
+.btn.ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0; }
 
-        /* 頁尾樣式 */
-        .footer {
-            width: 100%;
-            text-align: center;
-            /*background-color: #f8f9fa;  淺灰背景 */
-            padding: 5px 0;
-            font-size: 18px;
-            color: #6c757d; /* 灰色文字 */
-            margin-top: 20px; /* 給上方留點間距，避免和內容過於擁擠 */
-        }
+/* ===== 結果圖片視窗 ===== */
+.overlay {
+  position: fixed; inset: 0; z-index: 10;
+  background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.overlay .panel {
+  background: var(--surface); border-radius: var(--radius);
+  max-width: 480px; width: 100%; max-height: 90vh; overflow: auto;
+  padding: 16px; text-align: center;
+}
+.overlay img { width: 100%; border: 1px solid var(--line); border-radius: 8px; }
 
-
-    </style>
+/* ===== 頁尾 ===== */
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 24px 0 32px; line-height: 1.8; }
+</style>
 </head>
 <body>
 
-    <h1>DiSC 人格特質測驗 15</h1>
+<div class="wrap">
+  <header>
+    <h1>DISC 人格特質測驗</h1>
+    <ol class="steps" id="steps">
+      <li data-step="quiz">1 作答</li>
+      <li data-step="result">2 結果</li>
+    </ol>
+  </header>
 
-    <!-- 測驗頁面 -->
-    <div id="question-container" class="question-container active">
-        <h2 id="question-text"></h2>
+  <main id="app"></main>
 
-        <!-- 顯示選項的容器 -->
-        <div id="options-container"></div>
+  <!-- 版權宣告 -->
+  <footer>
+    本測驗依據 William Moulton Marston(1928)DISC行為模式理論，<br>
+    並由 莊士勇 職涯諮詢師 依現代生活與職場情境重新設計。<br>
+    &copy; 2025–2026 GCDF全球職涯發展師 莊士勇 設計
+  </footer>
+</div>
 
-        <div class="btn-container">
-            <button class="btn" id="prev-button" onclick="prevQuestion()" style="display:none;">重作上一題</button>
-            <button class="btn" id="next-button" onclick="nextQuestion()"disabled>自動下一題</button>
-        </div>
+<!-- 載入題目 -->
+<script src="questions-youth.js"></script>
+<script src="questions-general.js"></script>
 
-        <!-- 進度條 -->
-        <div class="progress-bar">
-            <span id="progress-bar-fill"></span>
+<script>
+// ===== 作答進度 =====
+// 只暫存在使用者自己的瀏覽器（不會上傳），方便不小心重新整理時接著做；超過 24 小時自動作廢。
+const STORAGE_KEY = 'disc-progress';
+const EXPIRE_MS = 24 * 60 * 60 * 1000;
 
-    <!-- 顯示題數/總題數 -->
-    <div id="progress-text" class="progress-text"></div>
+// ===== 測驗設定 =====
+const VERSIONS = {
+  youth:   { name: '青年版', who: '國高中生', questions: youthQuestions },
+  general: { name: '大眾版', who: '大專以上、社會人士', questions: generalQuestions }
+};
+const TYPES = ['D', 'I', 'S', 'C'];
+const ANIMALS = {
+  D: {
+    emoji: '🐯', animal: '老虎', type: '支配/主導型（Dominance）',
+    description: '你擁有強烈的目標導向和決策能力，這使你在面對挑戰時，往往能夠迅速做出決定並推動事情向前發展。你不怕冒險，並且對達成結果有很高的期待。你擅長帶領他人，也能夠快速識別問題並提出解決方案。不過，有時你可能會太過專注於結果，而忽視他人的感受或需求。因此，記得在與他人合作時，留意聆聽他們的聲音，並保持開放的心態。'
+  },
+  I: {
+    emoji: '🦚', animal: '孔雀', type: '影響/社交型（Influence）',
+    description: '你是一個充滿活力和親和力的人，喜歡與人互動並影響他人的情緒和行為。你具備很強的溝通能力，能夠輕鬆地建立聯繫並激勵他人。你對新鮮事物充滿興奮，並且善於在社交場合中自如地應對。然而，有時你可能會因為太關注他人的反應而忽略自己的需求。試著學會在做決定時更加專注於自己的內心聲音，並平衡好自己與他人的期望。'
+  },
+  S: {
+    emoji: '🐨', animal: '無尾熊', type: '穩健/支持型（Steadiness）',
+    description: '你擅長維持穩定和和諧的環境，並且樂於支持他人，尤其是在他們需要幫助的時候。你是團隊中的穩定力量，總是能夠在他人面臨困難時提供支持。你重視關係並且願意為他人付出，但有時可能會過於避免衝突，甚至會犧牲自己的需求來迎合他人。學會適時表達自己的觀點並設定邊界，這樣能幫助你更健康地維持人際關係。'
+  },
+  C: {
+    emoji: '🦉', animal: '貓頭鷹', type: '分析/謹慎型（Conscientiousness）',
+    description: '你是一個深思熟慮的人，注重細節和準確性。你喜歡在做任何決策之前進行分析，並且有很強的規劃和組織能力。你對工作有很高的標準，並且總是力求完美。然而，有時你可能會過於專注於細節或規範，這可能會讓你在一些情況下難以快速行動。記得在需要時放鬆自己，接受某些情況的不完美，並且在面對不確定性時能夠更果斷地做出選擇。'
+  }
+};
+// 結果的排列：上排老虎、孔雀，下排貓頭鷹、無尾熊
+const MATRIX = ['D', 'I', 'C', 'S'];
 
-        </div>
+let state = loadState() || newState();
 
+function newState() {
+  return {
+    v: 1,
+    step: 'intro',
+    version: null,
+    qOrder: [],     // 打散後的題目順序
+    optOrder: [],   // 每一題打散後的選項順序（類型）
+    answers: [],    // 每一題選的類型
+    current: 0,
+    finishedAt: null,
+    savedAt: Date.now()
+  };
+}
 
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!s || Date.now() - s.savedAt > EXPIRE_MS) return null;
+    if (s.v !== 1 || (s.version && s.qOrder.length !== VERSIONS[s.version].questions.length)) return null; // 題目有更新時重來
+    return s;
+  } catch (e) { return null; }
+}
 
+function saveState() {
+  state.savedAt = Date.now();
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
 
-    <!-- 這裡是版權宣告 開始-->
-<footer class="footer">
-    <p>&copy;2025 GCDF全球職涯發展師 莊士勇 設計</p>
-</footer>
+function clearState() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// 選好版本後開始：題目順序、每題的選項順序都隨機打散
+function start(version) {
+  const n = VERSIONS[version].questions.length;
+  state = newState();
+  state.version = version;
+  state.qOrder = shuffle([...Array(n).keys()]);
+  state.optOrder = state.qOrder.map(() => shuffle([...TYPES]));
+  go('quiz');
+}
+
+// ===== 畫面切換 =====
+const app = document.getElementById('app');
+
+function go(step) {
+  state.step = step;
+  saveState();
+  render();
+  window.scrollTo(0, 0);
+}
+
+function render() {
+  document.getElementById('steps').hidden = state.step === 'intro';
+  document.querySelectorAll('#steps li').forEach(li => {
+    li.classList.toggle('on', li.dataset.step === state.step);
+  });
+  if (state.step === 'intro') renderIntro();
+  else if (state.step === 'quiz') renderQuiz();
+  else renderResult();
+}
+
+// ===== 說明頁：選擇版本 =====
+function renderIntro() {
+  app.innerHTML = `
+    <div class="intro">
+      <p class="desc">透過生活與職場中的情境題，<br>了解你的行為風格</p>
+      <p class="flow">① 作答 → ② 結果</p>
+      <p class="note">依照你平常最自然的反應選擇，沒有對錯<br>不需填寫個人資料，結果只存在你的手機</p>
+      ${Object.entries(VERSIONS).map(([key, v]) => `
+        <button type="button" class="btn start-btn" data-version="${key}">
+          ${v.name}（${v.questions.length} 題）<small>${v.who}</small>
+        </button>`).join('')}
+    </div>`;
+  app.querySelectorAll('.start-btn').forEach(btn => {
+    btn.onclick = () => start(btn.dataset.version);
+  });
+}
+
+// ===== 第 1 步：作答 =====
+function renderQuiz() {
+  const total = state.qOrder.length;
+  const i = state.current;
+  const q = VERSIONS[state.version].questions[state.qOrder[i]];
+
+  app.innerHTML = `
+    <div class="question">
+      <div class="no">第 ${i + 1} 題</div>
+      <div class="text">${q.text}</div>
+      <div id="opts"></div>
     </div>
-
-    <!-- 結果頁面 -->
-    <div id="result-page">
-        <h2>測驗結果</h2>
-        <div class="matrix">
-            <div id="tiger">
-                <span class="animal">🐯</span>
-                <span class="animal-name">老虎</span>
-                <span class="count" id="tiger-count">0</span>
-            </div>
-            <div id="peacock">
-                <span class="animal">🦚</span>
-                <span class="animal-name">孔雀</span>
-                <span class="count" id="peacock-count">0</span>
-            </div>
-            <div id="owl">
-                <span class="animal">🦉</span>
-                <span class="animal-name">貓頭鷹</span>
-                <span class="count" id="owl-count">0</span>
-            </div>
-            <div id="koala">
-                <span class="animal">🐨</span>
-                <span class="animal-name">無尾熊</span>
-                <span class="count" id="koala-count">0</span>
-            </div>
-        </div>
-    <!-- 這裡是提醒說明 開始-->
-                <h3>請截圖本頁面，請莊老師為您解讀喔</h3>
-    <!-- 這裡是提醒說明 結束-->
-        <div id="personality"></div>
-    <!-- 這裡是版權宣告 開始-->
-<footer class="footer">
-    <p>&copy;2025 GCDF全球職涯發展師 莊士勇 設計</p>
-</footer>
-    <!-- 這裡是版權宣告 結束-->
+    <div class="progress">
+      <div class="track"><div class="fill" style="width:${(i + 1) / total * 100}%"></div></div>
+      <span>${i + 1} / ${total}</span>
     </div>
+    <div class="btn-row">
+      ${i > 0 ? '<button type="button" class="btn ghost" id="prev">← 上一題</button>' : ''}
+    </div>`;
 
-    <!-- 載入外部的問題資料 -->
-    <script src="questions_15_student.js"></script>
+  const opts = document.getElementById('opts');
+  state.optOrder[i].forEach(type => {
+    const opt = q.options.find(o => o.type === type);
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'opt' + (state.answers[i] === type ? ' chosen' : '');
+    el.textContent = opt.text;
+    el.onclick = () => answer(type);
+    opts.appendChild(el);
+  });
 
-    <!-- 載入外部的回饋資料 -->
-    <script src="feedbackDatabase.js"></script>
-
-    <script>
-    // 變數初始化
-    let answers = [];    // 用戶選擇的答案
-    let currentQuestionIndex = 0;  // 當前問題索引
-    let shuffledQuestions = [];  // 用來儲存打亂順序的題目列表
-
-    // 隨機打亂陣列的函數
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // 交換元素
-        }
-    }
-
-    // 初始化題目並打亂順序
-    function initQuestions() {
-        shuffledQuestions = [...questions];  // 複製題目
-        shuffle(shuffledQuestions);  // 隨機打亂題目順序
-        updateQuestion();  // 更新顯示
-    }
-
-// 更新問題顯示
-function updateQuestion() {
-    const question = shuffledQuestions[currentQuestionIndex]; // 使用打亂後的題目
-    document.getElementById("question-text").textContent = question.text;
-
-    // 清空舊的選項
-    const optionsContainer = document.getElementById("options-container");
-    optionsContainer.innerHTML = "";
-
-    // 顯示選項
-    question.options.forEach((option, index) => {
-        const button = document.createElement("button");
-        button.classList.add("btn");
-        button.textContent = option;
-        button.onclick = () => selectAnswer(index);
-        optionsContainer.appendChild(button);
-    });
-
-    // 更新上一題與下一題按鈕狀態
-    document.getElementById("prev-button").style.display = currentQuestionIndex === 0 ? "none" : "inline-block";
-    document.getElementById("next-button").style.display = currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
-
-
-    // 更新進度條
-    const progressBar = document.getElementById("progress-bar-fill");
-    const progress = (currentQuestionIndex + 1) / shuffledQuestions.length * 100;
-    progressBar.style.width = progress + "%";
-
-    // 更新題數顯示（例如：1/40）
-    const progressText = document.getElementById("progress-text");
-    progressText.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
-
+  if (i > 0) document.getElementById('prev').onclick = () => {
+    state.current--;
+    saveState();
+    renderQuiz();
+  };
 }
 
-        // 選擇答案並跳到下一題
-        function selectAnswer(answerIndex) {
-            answers[currentQuestionIndex] = answerIndex;
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                updateQuestion();
-            } else {
-                showResults();
-            }
-        }
+// 選完自動進入下一題，最後一題選完就看結果
+function answer(type) {
+  state.answers[state.current] = type;
+  if (state.current < state.qOrder.length - 1) {
+    state.current++;
+    saveState();
+    renderQuiz();
+    window.scrollTo(0, 0);
+  } else {
+    state.finishedAt = Date.now();
+    go('result');
+  }
+}
 
-        // 回到上一題
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                updateQuestion();
-            }
-        }
+// ===== 第 2 步：結果 =====
+function formatTime(ts) {
+  const d = new Date(ts);
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
 
-// 性格分析的描述
-const personalityDescriptions = [
-    {
-        animal: "老虎",
-        type: "控制/支配型（Dominance）",
-        description: "你擁有強烈的目標導向和決策能力，這使你在面對挑戰時，往往能夠迅速做出決定並推動事情向前發展。你不怕冒險，並且對達成結果有很高的期待。你擅長帶領他人，也能夠快速識別問題並提出解決方案。不過，有時你可能會太過專注於結果，而忽視他人的感受或需求。因此，記得在與他人合作時，留意聆聽他們的聲音，並保持開放的心態。"
-    },
-    {
-        animal: "孔雀",
-        type: "影響/社交型（Influence）",
-        description: "你是一個充滿活力和親和力的人，喜歡與人互動並影響他人的情緒和行為。你具備很強的溝通能力，能夠輕鬆地建立聯繫並激勵他人。你對新鮮事物充滿興奮，並且善於在社交場合中自如地應對。然而，有時你可能會因為太關注他人的反應而忽略自己的需求。試著學會在做決定時更加專注於自己的內心聲音，並平衡好自己與他人的期望。"
-    },
-    {
-        animal: "無尾熊",
-        type: "穩健/支持型（Steadiness）",
-        description: "你擅長維持穩定和和諧的環境，並且樂於支持他人，尤其是在他們需要幫助的時候。你是團隊中的穩定力量，總是能夠在他人面臨困難時提供支持。你重視關係並且願意為他人付出，但有時可能會過於避免衝突，甚至會犧牲自己的需求來迎合他人。學會適時表達自己的觀點並設定邊界，這樣能幫助你更健康地維持人際關係。"
-    },
-    {
-        animal: "貓頭鷹",
-        type: "分析/服從型（Compliance）",
-        description: "你是一個深思熟慮的人，注重細節和準確性。你喜歡在做任何決策之前進行分析，並且有很強的規劃和組織能力。你對工作有很高的標準，並且總是力求完美。然而，有時你可能會過於專注於細節或規範，這可能會讓你在一些情況下難以快速行動。記得在需要時放鬆自己，接受某些情況的不完美，並且在面對不確定性時能夠更果斷地做出選擇。"
+// 主要性格：分數最高的（同分全部列出）；次要性格：其餘中分數最高的（0 分不算）
+function analyze() {
+  const counts = { D: 0, I: 0, S: 0, C: 0 };
+  state.answers.forEach(t => counts[t]++);
+  const max = Math.max(...TYPES.map(t => counts[t]));
+  const primary = TYPES.filter(t => counts[t] === max);
+  const rest = TYPES.filter(t => !primary.includes(t));
+  const second = rest.length ? Math.max(...rest.map(t => counts[t])) : 0;
+  const secondary = second > 0 ? rest.filter(t => counts[t] === second) : [];
+  return { counts, primary, secondary };
+}
+
+function animalNames(types) {
+  return types.map(t => ANIMALS[t].emoji + ANIMALS[t].animal).join('、');
+}
+
+function renderResult() {
+  const { counts, primary, secondary } = analyze();
+  const v = VERSIONS[state.version];
+
+  const section = (label, types) => !types.length ? '' : `
+    <div class="analysis">
+      <h3>${label}</h3>
+      ${types.map(t => `<h4>${ANIMALS[t].emoji} ${ANIMALS[t].animal} － ${ANIMALS[t].type}</h4><p>${ANIMALS[t].description}</p>`).join('')}
+    </div>`;
+
+  app.innerHTML = `
+    <div class="result-mode">${v.name}（${v.questions.length} 題）</div>
+    <div class="result-meta">完成時間：${formatTime(state.finishedAt)}</div>
+    <div class="matrix">
+      ${MATRIX.map(t => `
+        <div class="animal${primary.includes(t) ? ' primary' : secondary.includes(t) ? ' secondary' : ''}">
+          <div class="emoji">${ANIMALS[t].emoji}</div>
+          <div class="name">${ANIMALS[t].animal}</div>
+          <div class="type">${t} ${ANIMALS[t].type.split('（')[0]}</div>
+          <div class="count">${counts[t]}</div>
+        </div>`).join('')}
+    </div>
+    <div class="summary">
+      <p>你的主要性格是：<strong>${animalNames(primary)}</strong></p>
+      ${secondary.length ? `<p>你的次要性格是：<strong>${animalNames(secondary)}</strong></p>` : ''}
+    </div>
+    ${section('主要性格分析', primary)}
+    ${section('次要性格分析', secondary)}
+    <div class="btn-row">
+      <button class="btn" id="save">下載結果圖片</button>
+    </div>
+    <div class="notice"><strong>請下載結果圖片或截圖本頁面，<br>請莊老師為您解讀喔</strong></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="restart">重新開始</button>
+    </div>`;
+
+  document.getElementById('save').onclick = showImage;
+  document.getElementById('restart').onclick = () => {
+    if (!confirm('確定要重新開始嗎？目前的作答結果會被清除。')) return;
+    clearState();
+    state = newState();
+    go('intro');
+  };
+}
+
+// ===== 產生結果圖片（在手機上畫，不經過網路） =====
+// 中文逐字斷行
+function wrapLines(ctx, text, maxWidth) {
+  const lines = [];
+  let line = '';
+  for (const ch of text) {
+    if (ctx.measureText(line + ch).width > maxWidth && line) {
+      lines.push(line);
+      line = ch;
+    } else {
+      line += ch;
     }
-];
-
-// 顯示結果頁面
-function showResults() {
-    // 統計答案
-    const counts = [0, 0, 0, 0];
-    answers.forEach(answer => counts[answer]++);
-
-    // 顯示統計數字，並加上動物圖標
-    document.getElementById("tiger-count").textContent = `${counts[0]}`;
-    document.getElementById("peacock-count").textContent = `${counts[1]}`;
-    document.getElementById("koala-count").textContent = `${counts[2]}`;
-    document.getElementById("owl-count").textContent = `${counts[3]}`;
-
-    // 計算主要性格
-    let max = Math.max(...counts);
-    let maxIndexes = [];
-    counts.forEach((count, index) => {
-        if (count === max) {
-            maxIndexes.push(index);
-        }
-    });
-
-    // 主要性格顯示多個動物（當有兩個或以上的最大值）
-    const personalities = ["🐯老虎", "🦚孔雀", "🐨無尾熊", "🦉貓頭鷹"];
-    let primaryPersonality = "你的主要性格是：";
-    maxIndexes.forEach(index => {
-        primaryPersonality += `${personalities[index]} `;
-    });
-
-    // 計算次要性格
-    let remainingCounts = counts.map((count, index) => ({ index, count })).filter(item => !maxIndexes.includes(item.index));
-    let secondMax = Math.max(...remainingCounts.map(item => item.count));
-    let secondMaxIndexes = remainingCounts.filter(item => item.count === secondMax).map(item => item.index);
-
-    // 次要性格顯示兩個或以上有相同第二大數字的動物
-    let secondaryPersonality = "你的次要性格是：";
-    secondMaxIndexes.forEach(index => {
-        secondaryPersonality += `${personalities[index]} `;
-    });
-
-    // 顯示性格分析
-    let personalityAnalysis = generatePersonalityAnalysis(maxIndexes, "主要性格分析");
-    personalityAnalysis += `<div class="divider"></div>`; // 加入分隔線
-    personalityAnalysis += generatePersonalityAnalysis(secondMaxIndexes, "次要性格分析");
-
-    // 顯示性格分析
-    document.getElementById("personality").innerHTML = `
-    <div class="divider"></div> <!-- 在這裡插入分隔線 -->
-        <strong>${primaryPersonality}</strong></p>
-        <p><strong>${secondaryPersonality}</strong></p>
-    <div class="divider"></div> <!-- 在這裡插入分隔線 -->
-        <div>${personalityAnalysis}</div>
-    <div class="divider"></div> <!-- 在這裡插入分隔線 -->
-    `;
-
-    // 顯示結果頁面
-    document.getElementById("question-container").style.display = "none";
-    document.getElementById("result-page").classList.add("active");
+  }
+  if (line) lines.push(line);
+  return lines;
 }
 
-// 根據性格索引生成簡化的分析文字
-function generatePersonalityAnalysis(indexes, label) {
-    let analysis = `${label}: `;
-    indexes.forEach(index => {
-        const personality = personalityDescriptions[index];
-        analysis += `<p><strong>${personality.animal}</strong> - ${personality.type}</p>`;
-        analysis += `<p>${personality.description}</p>`;
+function drawResultImage() {
+  const W = 1080, PAD = 60, CELL_H = 250, GAP = 24, LINE = 46;
+  const { counts, primary, secondary } = analyze();
+  const v = VERSIONS[state.version];
+  const fontFamily = getComputedStyle(document.body).fontFamily;
+  const font = (size, weight) => `${weight || 400} ${size}px ${fontFamily}`;
+
+  // 先算解說文字的行數，決定圖片高度
+  const measure = document.createElement('canvas').getContext('2d');
+  measure.font = font(30);
+  const blocks = [['主要性格分析', primary], ['次要性格分析', secondary]]
+    .filter(([, types]) => types.length)
+    .map(([label, types]) => ({
+      label,
+      items: types.map(t => ({ t, lines: wrapLines(measure, ANIMALS[t].description, W - PAD * 2) }))
+    }));
+  let H = 290 + CELL_H * 2 + GAP + 150;
+  blocks.forEach(b => {
+    H += 70;
+    b.items.forEach(it => { H += 64 + it.lines.length * LINE + 20; });
+  });
+  H += 130;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#f6f5f2';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#2b2b2b';
+  ctx.font = font(56, 700);
+  ctx.fillText(document.title, W / 2, 100);
+  ctx.font = font(38, 700);
+  ctx.fillText(`${v.name}（${v.questions.length} 題）`, W / 2, 170);
+  ctx.fillStyle = '#6b6b6b';
+  ctx.font = font(30);
+  ctx.fillText(`完成時間：${formatTime(state.finishedAt)}`, W / 2, 225);
+
+  // 四種動物
+  const cellW = (W - PAD * 2 - GAP) / 2;
+  MATRIX.forEach((t, k) => {
+    const x = PAD + (k % 2) * (cellW + GAP);
+    const y = 270 + Math.floor(k / 2) * (CELL_H + GAP);
+    const isP = primary.includes(t), isS = secondary.includes(t);
+    ctx.fillStyle = isP ? '#EBF1F7' : '#ffffff';
+    roundRect(ctx, x, y, cellW, CELL_H, 24);
+    ctx.fill();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = isP ? '#35628E' : isS ? '#9db3c9' : '#e2e0da';
+    ctx.stroke();
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#2b2b2b';
+    ctx.font = font(64);
+    ctx.fillText(ANIMALS[t].emoji, x + cellW / 2, y + 80);
+    ctx.font = font(38, 700);
+    ctx.fillText(ANIMALS[t].animal, x + cellW / 2, y + 135);
+    ctx.fillStyle = isP ? '#35628E' : '#6b6b6b';
+    ctx.font = font(60, 700);
+    ctx.fillText(String(counts[t]), x + cellW / 2, y + 210);
+  });
+
+  // 主要／次要性格
+  let y = 270 + CELL_H * 2 + GAP + 70;
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#2b2b2b';
+  ctx.font = font(38, 700);
+  ctx.fillText(`主要性格：${animalNames(primary)}`, W / 2, y);
+  if (secondary.length) {
+    ctx.font = font(34);
+    ctx.fillText(`次要性格：${animalNames(secondary)}`, W / 2, y + 56);
+  }
+  y += 80;
+
+  // 解說文字
+  ctx.textAlign = 'left';
+  blocks.forEach(b => {
+    y += 70;
+    ctx.fillStyle = '#6b6b6b';
+    ctx.font = font(30, 700);
+    ctx.fillText(b.label, PAD, y);
+    b.items.forEach(it => {
+      y += 64;
+      ctx.fillStyle = '#2b2b2b';
+      ctx.font = font(36, 700);
+      ctx.fillText(`${ANIMALS[it.t].emoji} ${ANIMALS[it.t].animal} － ${ANIMALS[it.t].type}`, PAD, y);
+      ctx.font = font(30);
+      it.lines.forEach(line => { y += LINE; ctx.fillText(line, PAD, y); });
+      y += 20;
     });
-    return analysis;
+  });
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#6b6b6b';
+  ctx.font = font(26);
+  ctx.fillText('© 2025–2026 GCDF全球職涯發展師 莊士勇 設計', W / 2, H - 70);
+  ctx.fillText('shihyungchuang.github.io/disc', W / 2, H - 30);
+  return canvas;
 }
 
-    // 當頁面載入時初始化題目順序
-    window.onload = function() {
-        initQuestions();  // 初始化並顯示第一題
-    };
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function showImage() {
+  const url = drawResultImage().toDataURL('image/png');
+  const d = new Date(state.finishedAt);
+  const name = `DISC_${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}.png`;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  overlay.innerHTML = `
+    <div class="panel">
+      <img src="${url}" alt="DISC 測驗結果">
+      <p class="notice">手機請<strong>長按圖片</strong>儲存到相簿</p>
+      <div class="btn-row">
+        <a class="btn" href="${url}" download="${name}" style="text-decoration:none">下載圖片</a>
+        <button class="btn ghost" id="closeImg">關閉</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#closeImg').onclick = () => overlay.remove();
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+}
+
+render();
 </script>
 </body>
 </html>
