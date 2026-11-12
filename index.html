@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>DISC 行為風格測驗</title>
+<title>DISC 行為風格探索</title>
 
 <!-- 基本資訊 -->
 <meta name="version" content="3.0">
 <meta name="author" content="莊士勇 Steven">
-<meta name="description" content="本測驗依據 DISC 行為模式理論設計，透過生活與職場中的情境題，了解你的行為風格。分為青年版（20 題）與大眾版（40 題）。">
+<meta name="description" content="參考 DISC 行為模式理論設計，透過生活與職場中的情境題，了解你的行為風格。分為青年版（20 題）與大眾版（40 題）。">
 
 <!-- 社群分享設定 -->
-<meta property="og:title" content="DISC 行為風格測驗">
+<meta property="og:title" content="DISC 行為風格探索">
 <meta property="og:description" content="你比較像老虎、孔雀、無尾熊還是貓頭鷹？透過情境題了解你的行為風格。">
 <meta property="og:type" content="website">
 
@@ -148,6 +148,7 @@ h1 { font-size: 26px; margin: 0 0 12px; letter-spacing: 1px; }
 /* ===== 頁尾 ===== */
 footer { text-align: center; color: var(--muted); font-size: 14px; padding: 24px 0 32px; line-height: 1.8; }
 footer p { margin: 0 0 12px; text-wrap: balance; }
+footer a { color: var(--muted); }
 footer .nw { white-space: nowrap; } /* 理論名稱和年份不要拆開 */
 </style>
 </head>
@@ -155,7 +156,7 @@ footer .nw { white-space: nowrap; } /* 理論名稱和年份不要拆開 */
 
 <div class="wrap">
   <header>
-    <h1>DISC 行為風格測驗</h1>
+    <h1>DISC 行為風格探索</h1>
     <ol class="steps" id="steps">
       <li data-step="quiz">1 作答</li>
       <li data-step="result">2 結果</li>
@@ -168,7 +169,7 @@ footer .nw { white-space: nowrap; } /* 理論名稱和年份不要拆開 */
   <footer>
     <p>理論參考：<span class="nw">Marston DISC 行為模式理論（1928）</span>，依現代生活與職場情境設計題目。</p>
     <p>本工具僅供自我探索參考，非標準化心理測驗。</p>
-    <p>&copy; 2025–2026<br>GCDF全球職涯發展師 莊士勇 Steven 設計</p>
+    <p>&copy; 2025–2026<br>GCDF全球職涯發展師 莊士勇 Steven 設計<br><a href="https://stevenchuang.com/" target="_blank" rel="noopener">stevenchuang.com</a></p>
   </footer>
 </div>
 
@@ -537,7 +538,7 @@ function drawResultImage() {
   ctx.fillStyle = '#6b6b6b';
   ctx.font = font(26);
   ctx.fillText('© 2025–2026 GCDF全球職涯發展師 莊士勇 Steven 設計', W / 2, H - 70);
-  ctx.fillText('shihyungchuang.github.io/disc', W / 2, H - 30);
+  ctx.fillText('shihyungchuang.github.io/disc　｜　stevenchuang.com', W / 2, H - 30);
   return canvas;
 }
 
@@ -608,7 +609,7 @@ function resultText() {
     `主要性格：${withType(primary)}`
   ];
   if (secondary.length) lines.push(`次要性格：${withType(secondary)}`);
-  lines.push('', location.origin + location.pathname, SIGNATURE);
+  lines.push('', location.origin + location.pathname, SIGNATURE, 'stevenchuang.com');
   return lines.join('\n');
 }
 
@@ -621,7 +622,7 @@ function showImage() {
   overlay.className = 'overlay';
   overlay.innerHTML = `
     <div class="panel">
-      <img src="${url}" alt="DISC 測驗結果">
+      <img src="${url}" alt="DISC 探索結果">
       <p class="notice">手機請<strong>長按圖片</strong>儲存到相簿</p>
       <div class="btn-row">
         <a class="btn" href="${url}" download="${name}" style="text-decoration:none">下載圖片</a>
